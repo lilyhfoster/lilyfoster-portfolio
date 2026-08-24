@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lily Foster — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+  /* ---------- design tokens ---------- */
+  :root{
+    --ivory:#faf6ee;
+    --paper:#f2ead9;
+    --ink:#2a241e;
+    --ink-soft:#5a4f42;
+    --lavender:#b7a3cd;
+    --lavender-deep:#8a6da6;
+    --sage:#7c8a68;
+    --sage-deep:#576342;
+    --gold:#c39a3f;
+    --berry:#8c3b48;
+    --berry-soft:#c98488;
+    --line: rgba(42,36,30,0.16);
+    --shadow: 0 30px 60px -35px rgba(42,36,30,0.35);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ivory);
+    color:var(--ink);
+    font-family:'Jost', sans-serif;
+    font-weight:300;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  video{max-width:100%;display:block;}
+  a{color:inherit;}
+
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    margin:0;
+  }
+
+  .eyebrow{
+    font-family:'Jost', sans-serif;
+    font-size:12px;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    font-weight:500;
+  }
+
+  ::selection{ background: var(--lavender); color:var(--ivory); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  /* ---------- ambient blobs ---------- */
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(70px);
+    opacity:0.55;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ---------- nav ---------- */
+  header.site-nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 5vw;
+    background:rgba(250,246,238,0.72);
+    backdrop-filter:blur(14px) saturate(140%);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    border-bottom:1px solid transparent;
+    transition:border-color .4s ease, box-shadow .4s ease;
+  }
+  header.site-nav.scrolled{
+    border-bottom:1px solid var(--line);
+    box-shadow:0 12px 30px -22px rgba(42,36,30,0.3);
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:19px;
+    letter-spacing:0.01em;
+    text-decoration:none;
+  }
+  .brand svg{ width:26px; height:26px; }
+  nav.links{
+    display:flex;
+    gap:34px;
+  }
+  nav.links a{
+    text-decoration:none;
+    font-size:12px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    position:relative;
+    padding-bottom:4px;
+  }
+  nav.links a::after{
+    content:'';
+    position:absolute;
+    left:0; right:100%;
+    bottom:0;
+    height:1px;
+    background:var(--ink);
+    transition:right .35s cubic-bezier(.6,.1,.2,1);
+  }
+  nav.links a:hover::after{ right:0; }
+  .nav-toggle{ display:none; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    overflow:hidden;
+    padding:120px 6vw 80px;
+  }
+  .hero .blob-a{ width:520px; height:520px; top:-140px; left:-120px; background:radial-gradient(circle at 30% 30%, var(--lavender), transparent 70%); }
+  .hero .blob-b{ width:460px; height:460px; bottom:-160px; right:-100px; background:radial-gradient(circle at 60% 40%, var(--sage), transparent 70%); opacity:0.35;}
+  .hero .blob-c{ width:300px; height:300px; top:40%; right:10%; background:radial-gradient(circle, var(--gold), transparent 70%); opacity:0.22; }
+
+  .lace-wrap{
+    position:relative;
+    width:min(560px, 78vw);
+    margin-bottom:8px;
+    z-index:1;
+  }
+  .lace-wrap svg{ width:100%; height:auto; overflow:visible; }
+  .lace-wrap circle{
+    fill:none;
+    stroke:var(--ink);
+    stroke-width:0.6;
+    opacity:0.55;
+    stroke-dasharray:260;
+    stroke-dashoffset:260;
+    animation:draw 2.6s cubic-bezier(.4,.1,.2,1) forwards;
+  }
+
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+
+  .hero-eyebrow{
+    position:relative; z-index:1;
+    margin-bottom:22px;
+  }
+  .hero h1{
+    position:relative; z-index:1;
+    font-size:clamp(52px, 10vw, 118px);
+    font-style:italic;
+    font-weight:400;
+    letter-spacing:-0.01em;
+    line-height:0.98;
+  }
+  .hero p.tag{
+    position:relative; z-index:1;
+    margin-top:22px;
+    max-width:480px;
+    font-size:16px;
+    color:var(--ink-soft);
+    font-weight:300;
+  }
+  .hero .scroll-cue{
+    position:relative; z-index:1;
+    margin-top:64px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    font-size:11px;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .scroll-cue .stem{
+    width:1px; height:46px;
+    background:linear-gradient(var(--ink-soft), transparent);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{opacity:.3;} 50%{opacity:1;} }
+
+  /* ---------- intro strip ---------- */
+  .intro{
+    max-width:720px;
+    margin:0 auto;
+    padding:40px 6vw 130px;
+    text-align:center;
+  }
+  .intro p{
+    font-size:clamp(19px,2.4vw,24px);
+    font-family:'Fraunces', serif;
+    font-weight:300;
+    font-style:italic;
+    color:var(--ink-soft);
+    line-height:1.5;
+  }
+
+  /* ---------- divider ---------- */
+  .divider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    padding:0 6vw 90px;
+  }
+  .divider .rule{
+    flex:1;
+    max-width:220px;
+    height:1px;
+    background:var(--line);
+  }
+  .divider svg{ width:34px; height:34px; flex:none; opacity:0.6; }
+  .divider svg circle{ fill:none; stroke:var(--ink-soft); stroke-width:0.7; }
+
+  /* ---------- work sections ---------- */
+  .work{
+    position:relative;
+    padding:40px 6vw 150px;
+    overflow:hidden;
+  }
+  .work-inner{
+    max-width:1180px;
+    margin:0 auto;
+    position:relative;
+    z-index:1;
+  }
+  .work-head{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:24px;
+    margin-bottom:46px;
+    padding-bottom:30px;
+    border-bottom:1px solid var(--line);
+  }
+  .work-head .num{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:15px;
+    color:var(--accent-deep);
+  }
+  .work-head h2{
+    font-size:clamp(38px,6vw,68px);
+    font-style:italic;
+    font-weight:400;
+    margin-top:8px;
+    max-width:640px;
+  }
+  .meta-list{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    text-align:right;
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.02em;
+    min-width:220px;
+  }
+  .meta-list .row{ display:flex; justify-content:flex-end; gap:8px; }
+  .meta-list .k{ text-transform:uppercase; letter-spacing:0.14em; font-size:10.5px; color:var(--accent-deep); font-weight:500; }
+
+  .gallery{
+    columns:2 260px;
+    column-gap:18px;
+    margin-bottom:56px;
+  }
+  .gallery figure{
+    margin:0 0 18px;
+    break-inside:avoid;
+    -webkit-column-break-inside:avoid;
+    position:relative;
+    border-radius:6px;
+    overflow:hidden;
+    background:var(--paper);
+    box-shadow:var(--shadow);
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1);
+  }
+  .gallery figure.in-view{ opacity:1; transform:translateY(0); }
+  .gallery figure img, .gallery figure video{
+    width:100%; height:auto; display:block;
+  }
+  .gallery figcaption{
+    position:absolute;
+    left:0; right:0; bottom:0;
+    padding:14px 16px 12px;
+    font-size:11.5px;
+    letter-spacing:0.06em;
+    color:#fff;
+    background:linear-gradient(to top, rgba(20,16,12,0.68), transparent);
+    opacity:0;
+    transition:opacity .35s ease;
+  }
+  .gallery figure:hover figcaption{ opacity:1; }
+
+  /* single-media sections read better as one centered column */
+  .gallery.g-future{
+    columns:2 300px;
+  }
+
+  .work-copy{
+    display:grid;
+    grid-template-columns:1fr 1.6fr;
+    gap:64px;
+    align-items:start;
+  }
+  .work-copy .quote-mark{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:64px;
+    color:var(--accent);
+    line-height:1;
+  }
+  .work-copy p{
+    font-size:17px;
+    color:var(--ink-soft);
+    max-width:60ch;
+  }
+  .work-copy p + p{ margin-top:16px; }
+
+  .work-copy .aside{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:22px;
+    color:var(--ink);
+    line-height:1.4;
+    padding-right:20px;
+    border-right:1px solid var(--line);
+  }
+
+  /* accent per section */
+  #eternal{ --accent:var(--gold); --accent-deep:#a8822f; }
+  #pretty{ --accent:var(--berry-soft); --accent-deep:var(--berry); }
+  #future{ --accent:var(--lavender); --accent-deep:var(--lavender-deep); }
+
+  .work .blob{ }
+  #eternal .blob{ background:radial-gradient(circle, var(--gold), transparent 70%); width:420px; height:420px; top:-60px; right:-140px; opacity:0.18;}
+  #pretty .blob{ background:radial-gradient(circle, var(--berry-soft), transparent 70%); width:460px; height:460px; bottom:-120px; left:-160px; opacity:0.2;}
+  #future .blob{ background:radial-gradient(circle, var(--lavender), transparent 70%); width:440px; height:440px; top:-100px; left:-120px; opacity:0.25;}
+
+  /* ---------- footer ---------- */
+  footer{
+    position:relative;
+    background:var(--ink);
+    color:var(--ivory);
+    padding:110px 6vw 50px;
+    text-align:center;
+    overflow:hidden;
+  }
+  footer .lace-footer{
+    width:120px;
+    margin:0 auto 28px;
+    opacity:0.5;
+  }
+  footer .lace-footer circle{ fill:none; stroke:var(--ivory); stroke-width:0.6; }
+  footer h3{
+    font-size:clamp(30px,5vw,52px);
+    font-style:italic;
+    font-weight:400;
+  }
+  footer a.email{
+    display:inline-block;
+    margin-top:22px;
+    font-size:17px;
+    letter-spacing:0.03em;
+    text-decoration:none;
+    color:var(--ivory);
+    border-bottom:1px solid rgba(250,246,238,0.4);
+    padding-bottom:4px;
+    transition:border-color .3s ease, opacity .3s ease;
+  }
+  footer a.email:hover{ border-color:var(--ivory); }
+  footer .fine{
+    margin-top:70px;
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:rgba(250,246,238,0.45);
+  }
+
+  /* ---------- reveal ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(22px);
+    transition:opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    nav.links{ display:none; }
+    .work-copy{ grid-template-columns:1fr; gap:26px; }
+    .work-copy .aside{ border-right:none; border-left:2px solid var(--line); padding-left:18px; padding-right:0; }
+    .meta-list{ text-align:left; align-items:flex-start; }
+    .meta-list .row{ justify-content:flex-start; }
+    .work-head{ flex-direction:column; align-items:flex-start; }
+  }
+  @media (max-width:680px){
+    .gallery, .gallery.g-future{ columns:1; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav" id="siteNav">
+  <a href="#top" class="brand">
+    <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="currentColor" stroke-width="1">
+        <circle cx="20" cy="14" r="8"/><circle cx="13" cy="26" r="8"/><circle cx="27" cy="26" r="8"/>
+      </g>
+    </svg>
+    Lily Foster
+  </a>
+  <nav class="links">
+    <a href="#eternal">Eternal Purse</a>
+    <a href="#pretty">We Feel Pretty</a>
+    <a href="#future">Future Embroidery</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="blob blob-a"></div>
+  <div class="blob blob-b"></div>
+  <div class="blob blob-c"></div>
+
+  <div class="lace-wrap" aria-hidden="true">
+    <svg id="heroLace" viewBox="0 0 300 300"></svg>
+  </div>
+
+  <div class="hero-eyebrow eyebrow">Fabrication, Textile Design, &amp; Cultural Analysis</div>
+  <h1>Lily&nbsp;Foster</h1>
+  <p class="tag">A STUDENT PORTFOLIO</p>
+
+  <div class="scroll-cue">
+    <span>Scroll</span>
+    <span class="stem"></span>
+  </div>
+</section>
+
+
+<!-- ================= ETERNAL PURSE ================= -->
+<section class="work" id="eternal">
+  <div class="blob"></div>
+  <div class="work-inner">
+
+    <div class="work-head reveal">
+      <div>
+        <div class="num">01 — Sculptural Accessory</div>
+        <h2>Eternal Purse</h2>
+      </div>
+      <div class="meta-list">
+        <div class="row"><span class="k">Materials</span><span>3D&nbsp;Printed TPU</span></div>
+        <div class="row"><span class="k">Year</span><span>2026</span></div>
+        <div class="row"><span class="k">Course</span><span>MAT 111FS</span></div>
+        <div class="row"><span class="k">With</span><span>Lily Foster, Alexis Tucker, Acucar Viano, Nicole Aguirre</span></div>
+      </div>
+    </div>
+
+    <div class="gallery g-eternal">
+      <figure class="reveal"><img src="MAT189/portfolio/media/foster_eternal_01.jpeg" alt="Eternal Purse — full tote bag with woven TPU lace panels and canvas straps, displayed on a plinth"><figcaption>Completed bag, black and white TPU lace panels with canvas straps</figcaption></figure>
+      <figure class="reveal"><img src="MAT189/portfolio/media/foster_eternal_02.jpeg" alt="Detail looking down into the bag showing black and white printed lace panels joined with metal rings"><figcaption>Interior pocket detail</figcaption></figure>
+      <figure class="reveal"><video src="MAT189/portfolio/media/foster_eternal_04.MOV" muted loop playsinline autoplay controls></video><figcaption>Process: printing a test panel</figcaption></figure>
+      <figure class="reveal"><img src="MAT189/portfolio/media/foster_eternal_03.jpeg" alt="A panel mid-print on an Original Prusa i3 MK3 3D printer, with a finished panel resting beside the print bed"><figcaption>Printing on the Original Prusa i3 MK3S+</figcaption></figure>
+    </div>
+
+    <div class="work-copy">
+      <div class="aside">A functional bag constructed by both machine and hand.</div>
+      <div>
+        <p>The Eternal Purse is a 3D printed bag consisting of TPU panelsjoined together with metal rings and ribbon, with a canvas strap glued on. This was a group project with classmates Alexis Tucker, Acucar Viana, and Nicole Aguirre. The white panels were printed by me using an Original Prusa i3 MK3S+ printer.</p>
+        <p>The process involved lots of troubleshooting. Infill levels were changed, bed temperatures were adjusted, and pattern sizes were significantly altered in PrusaSlicer to allow printing to be possible. Original plans to print onto tulle fabric were scrapped after two failed attempts.</p>
+        <p>This bag matters because it is an example of the intersection of fashion and technology in an era where many industries are beginning to embrace new technologies.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">
+  <div class="rule"></div>
+  <svg viewBox="0 0 40 40"><circle cx="20" cy="14" r="7"/><circle cx="14" cy="24" r="7"/><circle cx="26" cy="24" r="7"/></svg>
+  <div class="rule"></div>
+</div>
+
+<!-- ================= WE FEEL PRETTY ================= -->
+<section class="work" id="pretty">
+  <div class="blob"></div>
+  <div class="work-inner">
+
+    <div class="work-head reveal">
+      <div>
+        <div class="num">02 — Editorial Zine</div>
+        <h2>We Feel Pretty</h2>
+      </div>
+      <div class="meta-list">
+        <div class="row"><span class="k">Format</span><span>Zine</span></div>
+        <div class="row"><span class="k">Year</span><span>2026</span></div>
+        <div class="row"><span class="k">Course</span><span>SOC 118PC</span></div>
+        <div class="row"><span class="k">By</span><span>Lily Foster</span></div>
+      </div>
+    </div>
+
+    <div class="gallery g-pretty">
+      <figure class="reveal"><img src="MAT189/portfolio/media/foster_prettycover_01.jpeg" alt="Zine cover, 'We Feel Pretty: Cultural Appropriation in Western Cosmetics,' March 2026, Issue 02"><figcaption>Cover, Issue 02</figcaption></figure>
+      <figure class="reveal"><img src="MAT189/portfolio/media/foster_pretty_02.jpeg" alt="Zine spread titled 'East Asia: Mysticism &amp; Marketing' discussing Lime Crime, Palladio Beauty, and Skin Gym"><figcaption>Spread — East Asia: Mysticism &amp; Marketing</figcaption></figure>
+      <figure class="reveal"><img src="MAT189/portfolio/media/foster_pretty_03.jpeg" alt="Zine spread titled 'Cultural Misrepresentation' discussing Sol de Janeiro, Tatcha, and Moroccanoil"><figcaption>Spread — Cultural Misrepresentation</figcaption></figure>
+    </div>
+
+    <div class="work-copy">
+      <div class="aside">A close read of the western beauty aisle in the era of cultural amalgamation.</div>
+      <div>
+        <p>We Feel Pretty is a zine created as a final project for a Sociology of Popular Culture class. It explores how western beauty brands have utilized cultural appropriation to sell products and build their branding. I made this on Canva, using images sourced from the internet.</p>
+        <p>This is important to me because the zine acts as a concise way to educate on an issue that frequently goes overlooked by beauty product consumers.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">
+  <div class="rule"></div>
+  <svg viewBox="0 0 40 40"><circle cx="20" cy="14" r="7"/><circle cx="14" cy="24" r="7"/><circle cx="26" cy="24" r="7"/></svg>
+  <div class="rule"></div>
+</div>
+
+<!-- ================= FUTURE EMBROIDERY ================= -->
+<section class="work" id="future">
+  <div class="blob"></div>
+  <div class="work-inner">
+
+    <div class="work-head reveal">
+      <div>
+        <div class="num">03 — Machine Embroidery</div>
+        <h2>Future Embroidery</h2>
+      </div>
+      <div class="meta-list">
+        <div class="row"><span class="k">Materials</span><span>Embroidery</span></div>
+        <div class="row"><span class="k">Year</span><span>2026</span></div>
+        <div class="row"><span class="k">Course</span><span>MAT 189</span></div>
+        <div class="row"><span class="k">By</span><span>Lily Foster</span></div>
+      </div>
+    </div>
+
+    <div class="gallery g-future">
+      <figure class="reveal"><img src="MAT189/portfolio/media/foster_future_01.jpeg" alt="Embroidered branch with five purple flowers, green leaves, and gold beading on natural linen"><figcaption>Potential design, inspired by hand embroidery I've done in the past</figcaption></figure>
+      <figure class="reveal"><img src="MAT189/portfolio/media/foster_future_02.jpeg" alt="Embroidered branch with purple flowers arranged horizontally across a curved branch, with gold beading and appliqué leaves"><figcaption>Another potential design</figcaption></figure>
+    </div>
+
+    <div class="work-copy">
+      <div class="aside">Pattern inspirations generated by SuperCraft AI.</div>
+      <div>
+        <p>I created my own intricate embroidered textile using patterns I designed myself. I made either one large design or several small ones. I incorporated beading and appliqué.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer id="contact">
+  <svg class="lace-footer" viewBox="0 0 40 40"><circle cx="20" cy="14" r="7"/><circle cx="14" cy="24" r="7"/><circle cx="26" cy="24" r="7"/></svg>
+  <div class="eyebrow" style="color:rgba(250,246,238,0.6)">CONTACT</div>
+  <a class="email" href="mailto:lilyfoster@ucsb.edu">lilyfoster@ucsb.edu</a>
+  <div class="fine">Lily Foster — Portfolio — 2026</div>
+</footer>
+
+<script>
+  // ---- nav shadow on scroll ----
+  const nav = document.getElementById('siteNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive:true });
+
+  // ---- reveal on scroll ----
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } });
+  }, { threshold:0.15 });
+  document.querySelectorAll('.reveal, .gallery figure').forEach(el => io.observe(el));
+
+  // ---- generate flower-of-life lace pattern for hero ----
+  function buildLace(svgEl, rings, r, cx, cy){
+    const pts = [[0,0]];
+    for(let ring=1; ring<=rings; ring++){
+      for(let i=0;i<6*ring;i++){
+        const angle = (Math.PI/3)*(i/ring);
+        // hex ring approximation using cube coordinates would be more accurate;
+        // simplified radial approach for a soft flower-of-life feel
+      }
+    }
+    // simplified explicit flower-of-life: 1 center + 6 + 12
+    const layer0 = [[0,0]];
+    const layer1 = [];
+    for(let i=0;i<6;i++){
+      const a = (Math.PI/3)*i;
+      layer1.push([Math.cos(a)*r, Math.sin(a)*r]);
+    }
+    const layer2 = [];
+    for(let i=0;i<6;i++){
+      const a = (Math.PI/3)*i;
+      layer2.push([Math.cos(a)*r*Math.sqrt(3), Math.sin(a)*r*Math.sqrt(3)]);
+    }
+    for(let i=0;i<6;i++){
+      const a = (Math.PI/3)*i + Math.PI/6;
+      layer2.push([Math.cos(a)*r*Math.sqrt(3), Math.sin(a)*r*Math.sqrt(3)]);
+    }
+    const all = layer0.concat(layer1);
+    let ns = "http://www.w3.org/2000/svg";
+    let delay = 0;
+    all.forEach(([x,y]) => {
+      const c = document.createElementNS(ns, 'circle');
+      c.setAttribute('cx', cx + x);
+      c.setAttribute('cy', cy + y);
+      c.setAttribute('r', r);
+      c.style.animationDelay = (delay*0.09) + 's';
+      svgEl.appendChild(c);
+      delay++;
+    });
+  }
+  buildLace(document.getElementById('heroLace'), 2, 42, 150, 150);
+</script>
+
+</body>
+</html>
